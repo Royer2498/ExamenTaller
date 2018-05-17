@@ -3,10 +3,7 @@ package com.ucbcba.demo.Controllers;
 import com.ucbcba.demo.entities.City;
 import com.ucbcba.demo.entities.Photo;
 import com.ucbcba.demo.entities.Restaurant;
-import com.ucbcba.demo.services.CategoryService;
-import com.ucbcba.demo.services.CityService;
-import com.ucbcba.demo.services.PhotoService;
-import com.ucbcba.demo.services.RestaurantService;
+import com.ucbcba.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,6 +38,7 @@ public class RestaurantController {
     private CategoryService categoryService;
     private CityService cityService;
     private PhotoService photoService;
+    private NivelPrecioService nivelPrecioService;
 
     @Autowired
     public void setRestaurantService(RestaurantService restaurantService) {
@@ -62,6 +60,11 @@ public class RestaurantController {
         this.photoService = photoService;
     }
 
+    @Autowired
+    public void setNivelPrecioService(NivelPrecioService nivelPrecioService) {
+        this.nivelPrecioService = nivelPrecioService;
+    }
+
     @RequestMapping(value = "admin/restaurants", method = RequestMethod.GET)
     public String listAllRestaurants(Model model) {
         model.addAttribute("restaurants", restaurantService.listAllRestaurants());
@@ -73,6 +76,7 @@ public class RestaurantController {
         model.addAttribute("restaurantCategories", categoryService.listAllCategories());
         model.addAttribute("cities", cityService.listAllCities());
         model.addAttribute("restaurant", new Restaurant());
+        model.addAttribute("nivelesPrecio", nivelPrecioService.listAllNivelPrecio());
         return "newRestaurant";
     }
 
@@ -115,6 +119,7 @@ public class RestaurantController {
         model.addAttribute("restaurant", restaurantService.getRestaurant(id));
         model.addAttribute("restaurantCategories", categoryService.listAllCategories());
         model.addAttribute("cities", cityService.listAllCities());
+        model.addAttribute("nivelesPrecio", nivelPrecioService.listAllNivelPrecio());
         List restaurantPhotos= new ArrayList();
         List<Photo> photos = (List<Photo>)photoService.listAllPhotosById(id);
         byte[] encodeBase64;

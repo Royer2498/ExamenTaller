@@ -3,6 +3,7 @@ package com.ucbcba.demo.Controllers;
 import com.ucbcba.demo.entities.User;
 import com.ucbcba.demo.services.SecurityService;
 import com.ucbcba.demo.services.UserService;
+import com.ucbcba.demo.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +18,14 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
     private final UserService userService;
-
+    private final CityService cityService;
     private final SecurityService securityService;
 
     @Autowired
-    public LoginController(UserService userService, SecurityService securityService) {
+    public LoginController(UserService userService, SecurityService securityService,CityService cityService) {
         this.userService = userService;
         this.securityService = securityService;
+        this.cityService = cityService;
     }
 
     //@Autowired
@@ -32,6 +34,7 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registrationInit(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("cities",cityService.listAllCities());
         return "registration";
     }
 

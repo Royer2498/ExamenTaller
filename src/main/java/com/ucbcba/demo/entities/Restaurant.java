@@ -40,6 +40,10 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
     private List<Photo> photo;
 
+    @ManyToOne
+    @JoinColumn(name = "nivelPrecio_id")
+    private NivelPrecio nivelPrecio;
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -102,5 +106,13 @@ public class Restaurant {
 
     public void setPhoto(List<Photo> photos) {
         this.photo = photos;
+    }
+
+    public NivelPrecio getNivelPrecio() {
+        return nivelPrecio;
+    }
+
+    public void setNivelPrecio(NivelPrecio nivelPrecio) {
+        this.nivelPrecio = nivelPrecio;
     }
 }
